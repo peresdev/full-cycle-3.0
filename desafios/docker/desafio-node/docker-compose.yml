@@ -1,0 +1,54 @@
+version: '3.4'
+services:
+  app:
+    container_name: app
+    command: dockerize -wait tcp://db:3306
+    build:
+      context: .
+      dockerfile: .docker/node/Dockerfile
+    networks:
+      - node-network
+    tty: true
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - db
+
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
+    restart: always
+    networks:
+      - node-network
+    ports:
+      - 8080:80
+    depends_on:
+      - app
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    restart: always
+    tty: true
+    volumes:
+      - ./scripts/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./scripts/02-data.sql:/docker-entrypoint-initdb.d/02-data.sql
+    networks:
+      - node-network
+
+volumes:
+  node_modules:
+
+networks:
+  node-network:
+    driver: bridge
