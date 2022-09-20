@@ -9,6 +9,6 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-COPY .docker/node/package.json .docker/node/index.js .docker/node/migrate.js ./
+COPY .docker/node/package.json .docker/node/index.js ./
 
 RUN npm install
