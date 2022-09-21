@@ -3,3 +3,5 @@ CREATE TABLE IF NOT EXISTS people(
     name VARCHAR(255),
     PRIMARY KEY(id)
 );
+
+INSERT INTO people VALUES ('Leandro Peres Gonçalves');
