@@ -1,8 +1,7 @@
-version: '3.9'
+version: '3.8'
 services:
   app:
     container_name: app
-    restart: always
     build:
       context: .
       dockerfile: .docker/node/Dockerfile
@@ -11,6 +10,7 @@ services:
     tty: true
     ports:
       - 3000:3000
+    command: dockerize -wait tcp://db:3306 -timeout 20s node index.js
     depends_on:
       - db
 
