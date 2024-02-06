@@ -1,7 +1,7 @@
 export interface FindInvoiceUseCaseInputDTO {
     id: string;
 }
-  
+
 export interface FindInvoiceUseCaseOutputDTO {
     id: string;
     name: string;
